@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  bot:
+    build: .
+    command: bash -c "python3 import_db.py && python3 bot.py"
+    restart: always
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    env_file:
+      - .env
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
