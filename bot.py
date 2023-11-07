@@ -3,7 +3,8 @@ import logging
 
 from aiogram import Bot, Dispatcher
 
-from tgbot.config import Config
+from tgbot.config import config
+from tgbot.handlers.amounts_payments import amounts_payments_router
 
 
 def setup_logging():
@@ -19,8 +20,9 @@ def setup_logging():
 async def main():
     setup_logging()
 
-    bot = Bot(token=Config.bot_token, parse_mode="HTML")
+    bot = Bot(token=config.bot_token, parse_mode="HTML")
     dp = Dispatcher()
+    dp.include_router(amounts_payments_router)
 
     await dp.start_polling(bot)
 
