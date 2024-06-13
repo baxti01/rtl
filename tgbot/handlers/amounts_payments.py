@@ -17,6 +17,11 @@ class InputData(BaseModel):
     group_type: str
 
 
+class OutputData(BaseModel):
+    dataset: list[int]
+    labels: list[datetime]
+
+
 @amounts_payments_router.message()
 async def get_amounts_payments(message: types.Message):
     input_data = InputData.model_validate_json(message.text)
@@ -27,4 +32,4 @@ async def get_amounts_payments(message: types.Message):
         input_data.group_type
     )
 
-    await message.answer(str(data))
+    await message.answer(OutputData(**data).model_dump_json())
